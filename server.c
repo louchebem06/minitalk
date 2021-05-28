@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/05/28 17:07:02 by bledda           ###   ########.fr       */
+/*   Updated: 2021/05/28 23:07:43 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void handler(int seg)
 {
 	static int size = 0;
 	static int charset = 0;
+
 	if (seg == SIGUSR1)
 	{
     	if (size == 0)
@@ -34,14 +35,17 @@ void handler(int seg)
     		charset += 2;
     	else if (size == 7)
     		charset += 1;
+		//ft_printf("1");
     	size++;
 	}
    	else if (seg == SIGUSR2)
    	{
+   		//ft_printf("0");
    		size++;
    	}
    	if (size == 8)
    	{
+   		//ft_printf("\n");
    		ft_printf("%c", charset);
    		size = 0;
    		charset = 0;
@@ -53,12 +57,12 @@ int	main(void)
 	int PID;
 
 	PID = getpid();
-	ft_printf("PID: %d\n\n", PID);
+	ft_printf("PID: %d\n", PID);
 	signal(SIGUSR1, handler);
 	signal(SIGUSR2, handler);
 	while(1)
 	{
-		pause ();
+		pause();
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/05/28 16:55:49 by bledda           ###   ########.fr       */
+/*   Updated: 2021/05/28 23:10:47 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,25 +87,34 @@ char *ft_itobin8(int ascii)
 	return (binaire);
 }
 
-void	SEND(char *str, int PID_SERVEUR)
+void	SEND(char *str_main, int PID_SERVEUR)
 {
 	int i;
 	int ascii;
 	char *binaire;
 	int j;
+	char *str;
 
 	i = 0;
 	j = 0;
+	str = ft_strjoin(str_main, "\n");
 	while (str[i] != 0)
 	{
 		ascii = str[i];
 		binaire = ft_itobin8(ascii);
 		while (binaire[j] != 0)
 		{
-			if (binaire[j] == '0')
-				kill(PID_SERVEUR, SIGUSR2);
-			else
-				kill(PID_SERVEUR, SIGUSR1);
+			if (binaire[j] == '0')if (kill(PID_SERVEUR, SIGUSR2) == -1)
+				{
+					ft_printf("PID IS NOT FOUND\n");
+					return ;
+				}
+			if (binaire[j] == '1')
+				if (kill(PID_SERVEUR, SIGUSR1) == -1)
+				{
+					ft_printf("PID IS NOT FOUND\n");
+					return ;
+				}
 			usleep(200);
 			j++;
 		}
