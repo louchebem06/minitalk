@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/01 14:05:11 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/01 15:12:36 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	SEND(char *str_main, int PID_SERVEUR, int us)
 
 	i = -1;
 	size = -1;
-	str = ft_strjoin(str_main, "\n");
+	str = ft_strjoin(str_main, '\n');
 	while (str[++i] != 0)
 	{
 		if (SEND_BYTE(PID_SERVEUR, size, str[i], us))

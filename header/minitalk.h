@@ -12,7 +12,7 @@ void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char s2);
 size_t	ft_strlen(const char *s);
 int		ft_isdigit(int c);
 int		ft_iswhitespace(char c);
