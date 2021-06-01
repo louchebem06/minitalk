@@ -6,15 +6,11 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/05/28 23:10:47 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/01 10:59:38 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-//128 64 32 16 8 4 2 1
-//kill(PID_SERVEUR, SIGUSR1);
-//kill(PID_SERVEUR, SIGUSR2);
 
 char *ft_itobin8(int ascii)
 {
@@ -87,7 +83,9 @@ char *ft_itobin8(int ascii)
 	return (binaire);
 }
 
-void	SEND(char *str_main, int PID_SERVEUR)
+int coucou = 0;
+
+void	SEND(char *str_main, int PID_SERVEUR, int us)
 {
 	int i;
 	int ascii;
@@ -104,7 +102,9 @@ void	SEND(char *str_main, int PID_SERVEUR)
 		binaire = ft_itobin8(ascii);
 		while (binaire[j] != 0)
 		{
-			if (binaire[j] == '0')if (kill(PID_SERVEUR, SIGUSR2) == -1)
+			coucou = 0;
+			if (binaire[j] == '0')
+				if (kill(PID_SERVEUR, SIGUSR2) == -1)
 				{
 					ft_printf("PID IS NOT FOUND\n");
 					return ;
@@ -115,24 +115,41 @@ void	SEND(char *str_main, int PID_SERVEUR)
 					ft_printf("PID IS NOT FOUND\n");
 					return ;
 				}
-			usleep(200);
+			if (us != 1000)
+			{
+				while (coucou == 0)
+				{
+				}
+				//pause();
+				//usleep(us);
+			}
+			else
+				usleep(us);
 			j++;
 		}
+		ft_printf("%c", str[i]);
 		j = 0;
 		i++;
 	}
 }
 
+void handler(int seg)
+{
+	//ft_printf("chien");
+	coucou = 1;
+	return ;
+}
+
 int	main(int ac, char **av)
 {
-	int PID;
 	int PID_SERVEUR;
 
+	signal(SIGUSR2, handler);
 	if (ac == 3)
 	{
-		PID = getpid();
 		PID_SERVEUR = ft_atoi(av[1]);
-		SEND(av[2], PID_SERVEUR);
+		SEND(ft_itoa(getpid()), PID_SERVEUR, 1000);
+		SEND(av[2], PID_SERVEUR, 100);
 	}
 	return (0);
 }
