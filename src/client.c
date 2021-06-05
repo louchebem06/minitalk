@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/01 15:12:36 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/05 17:05:41 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 static int	g_pause = 0;
 
-int	send_byte(int pid_server, int size, char str, int us)
+int	send_byte(int pid_server, char str)
 {
-	while (++size < 8)
+	int size;
+
+	size = 0;
+	while (size < 8)
 	{
 		g_pause = 0;
 		if ((str >> size) & 1)
@@ -26,32 +29,28 @@ int	send_byte(int pid_server, int size, char str, int us)
 		}
 		else if (kill(pid_server, SIGUSR2) == -1)
 			return (1);
-		if (us != 1000)
+		while (g_pause == 0)
 		{
-			while (g_pause == 0)
-			{
-			}
 		}
-		else
-			usleep(us);
+		size++;
 	}
 	return (0);
 }
 
-int	send(char *str_main, int pid_server, int us)
+int	send(char *str_main, int pid_server)
 {
 	int		i;
 	char	*str;
-	int		size;
 
-	i = -1;
-	size = -1;
+	i = 0;
 	str = ft_strjoin(str_main, '\n');
-	while (str[++i] != 0)
+	while (str[i] != 0)
 	{
-		if (send_byte(pid_server, size, str[i], us))
+		if (send_byte(pid_server, str[i]))
 			return (1);
+		i++;
 	}
+	free(str);
 	return (0);
 }
 
@@ -64,14 +63,10 @@ void	handler(int seg)
 
 int	main(int ac, char **av)
 {
-	int	pid_server;
-
 	signal(SIGUSR2, handler);
 	if (ac == 3)
 	{
-		pid_server = ft_atoi(av[1]);
-		send(ft_itoa(getpid()), pid_server, 1000);
-		if (!send(av[2], pid_server, 0))
+		if (!send(av[2], ft_atoi(av[1])))
 			ft_putstr_fd("Msg is received\n", 1);
 		else
 			ft_putstr_fd("Error: server is not found\n", 1);
