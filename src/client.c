@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/05 22:19:19 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/05 23:10:46 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	send_byte(int pid_server, char str)
 	size = 0;
 	while (size < 8)
 	{
-		usleep(1);
+		usleep(100);
 		g_pause = 0;
 		if ((str >> size) & 1)
 		{
