@@ -1,4 +1,5 @@
 NAME	= minitalk.a
+
 SRCS	= src/ft_atoi.c \
 		src/ft_calloc.c \
 		src/ft_isdigit.c \
@@ -10,6 +11,7 @@ SRCS	= src/ft_atoi.c \
 		src/ft_strlen.c \
 		src/ft_itoa.c \
 		src/ft_strdup.c
+		
 OBJS	= ${SRCS:.c=.o}
 
 CC		= gcc
