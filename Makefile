@@ -1,48 +1,86 @@
-NAME	= minitalk.a
+NAME				= minitalk
 
-SRCS	= src/ft_atoi.c \
-		src/ft_calloc.c \
-		src/ft_isdigit.c \
-		src/ft_iswhitespace.c \
-		src/ft_memset.c \
-		src/ft_putchar_fd.c \
-		src/ft_putstr_fd.c \
-		src/ft_strjoin.c \
-		src/ft_strlen.c \
-		src/ft_itoa.c \
-		src/ft_strdup.c
-		
-OBJS	= ${SRCS:.c=.o}
+FOLDER				= src/
 
-CC		= gcc
-CFLAGS  = -Wall -Wextra -Werror
-RM		= rm -f
+SRCS_CLIENT			= ft_atoi.c \
+					ft_putchar_fd.c \
+					ft_putstr_fd.c \
+					ft_strjoin.c \
+					ft_iswhitespace.c \
+					ft_isdigit.c \
+					ft_strlen.c \
+					ft_calloc.c \
+					ft_memset.c \
+					client.c
 
-$(NAME): server client
+SRCS_SERVER			= ft_putchar_fd.c \
+					ft_putstr_fd.c \
+					ft_itoa.c \
+					ft_strdup.c \
+					ft_strlen.c \
+					ft_calloc.c \
+					ft_memset.c \
+					server.c
 
-.c.o:
-		${CC} ${CFLAGS} -c $< -o $@
+SRCS_CLIENT_BONUS	= ft_atoi.c \
+					ft_putchar_fd.c \
+					ft_putstr_fd.c \
+					ft_strjoin.c \
+					ft_iswhitespace.c \
+					ft_isdigit.c \
+					ft_strlen.c \
+					ft_calloc.c \
+					ft_memset.c \
+					client_bonus.c
 
-server: ${OBJS}
-		ar -rcs ${NAME} ${OBJS}
-		${CC} ${CFLAGS} src/server.c ${NAME} -o server
+SRCS_SERVER_BONUS	= ft_putchar_fd.c \
+					ft_putstr_fd.c \
+					ft_itoa.c \
+					ft_strdup.c \
+					ft_strlen.c \
+					ft_calloc.c \
+					ft_memset.c \
+					server_bonus.c
 
-client: ${OBJS}
-		ar -rcs ${NAME} ${OBJS}
-		${CC} ${CFLAGS} src/client.c ${NAME} -o client
+SRC_CLIENT			= $(addprefix ${FOLDER},${SRCS_CLIENT})
+SRC_SERVER			= $(addprefix ${FOLDER},${SRCS_SERVER})
+SRC_CLIENT_BONUS	= $(addprefix ${FOLDER},${SRCS_CLIENT_BONUS})
+SRC_SERVER_BONUS	= $(addprefix ${FOLDER},${SRCS_SERVER_BONUS})
 
-all: 	${NAME}
+OBJS_CLIENT			= ${SRC_CLIENT:.c=.o}
+OBJS_SERVER			= ${SRC_SERVER:.c=.o}
+OBJS_CLIENT_BONUS	= ${SRC_CLIENT_BONUS:.c=.o}
+OBJS_SERVER_BONUS	= ${SRC_SERVER_BONUS:.c=.o}
 
-bonus: 	${NAME}
+CC					= gcc
+CFLAGS  			= -Wall -Wextra -Werror
+RM					= rm -f
 
-clean:
-		${RM} ${OBJS} ${OBJSBONUS}
+$(NAME)				:	server client
 
-fclean: clean
-		${RM} ${NAME}
-		${RM} server
-		${RM} client
+server				:	${OBJS_SERVER}
+						${CC} ${CFLAGS} ${OBJS_SERVER} -o server
 
-re:	fclean all
+client				:	${OBJS_CLIENT}
+						${CC} ${CFLAGS} ${OBJS_CLIENT} -o client
 
-.PHONY: all clean fclean re bonus
+server_bonus		:	${OBJS_SERVER_BONUS}
+						${CC} ${CFLAGS} ${OBJS_SERVER_BONUS} -o server
+
+client_bonus		:	${OBJS_CLIENT_BONUS}
+						${CC} ${CFLAGS} ${OBJS_CLIENT_BONUS} -o client
+
+bonus				:	server_bonus client_bonus
+
+all					: 	${NAME}
+
+clean				:
+						${RM} ${OBJS_SERVER} ${OBJS_CLIENT}
+
+fclean				:	clean
+						${RM} server
+						${RM} client
+
+re					:	fclean all
+
+.PHONY				:	$(NAME)	all clean fclean re bonus client_bonus server_bonus
