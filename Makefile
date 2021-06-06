@@ -6,7 +6,7 @@
 #    By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/06 04:42:36 by bledda            #+#    #+#              #
-#    Updated: 2021/06/06 04:43:14 by bledda           ###   ########.fr        #
+#    Updated: 2021/06/06 05:56:35 by bledda           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,26 +68,33 @@ CC					= gcc
 CFLAGS  			= -Wall -Wextra -Werror
 RM					= rm -f
 
+ifdef WITH_BONUS
+SERVER	= ${CC} ${CFLAGS} ${OBJS_SERVER_BONUS} -o server
+CLIENT	= ${CC} ${CFLAGS} ${OBJS_CLIENT_BONUS} -o client
+OBJ_CLIENT = ${OBJS_CLIENT_BONUS}
+OBJ_SERVER = ${OBJS_SERVER_BONUS}
+else
+SERVER	= ${CC} ${CFLAGS} ${OBJS_SERVER} -o server
+CLIENT	= ${CC} ${CFLAGS} ${OBJS_CLIENT} -o client
+OBJ_CLIENT = ${OBJS_CLIENT}
+OBJ_SERVER = ${OBJS_SERVER}
+endif
+
 $(NAME)				:	server client
 
-server				:	${OBJS_SERVER}
-						${CC} ${CFLAGS} ${OBJS_SERVER} -o server
+server				:	${OBJ_SERVER}
+						${SERVER}
 
-client				:	${OBJS_CLIENT}
-						${CC} ${CFLAGS} ${OBJS_CLIENT} -o client
+client				:	${OBJ_CLIENT}
+						${CLIENT}
 
-server_bonus		:	${OBJS_SERVER_BONUS}
-						${CC} ${CFLAGS} ${OBJS_SERVER_BONUS} -o server
-
-client_bonus		:	${OBJS_CLIENT_BONUS}
-						${CC} ${CFLAGS} ${OBJS_CLIENT_BONUS} -o client
-
-bonus				:	server_bonus client_bonus
+bonus				:	
+						$(MAKE) WITH_BONUS=1
 
 all					: 	${NAME}
 
 clean				:
-						${RM} ${OBJS_SERVER} ${OBJS_CLIENT}
+						${RM} ${OBJS_SERVER} ${OBJS_CLIENT} ${OBJS_SERVER_BONUS} ${OBJS_CLIENT_BONUS}
 
 fclean				:	clean
 						${RM} server
@@ -95,4 +102,4 @@ fclean				:	clean
 
 re					:	fclean all
 
-.PHONY				:	$(NAME)	all clean fclean re bonus client_bonus server_bonus
+.PHONY				:	$(NAME)	all clean fclean re bonus
