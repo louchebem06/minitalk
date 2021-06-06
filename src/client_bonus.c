@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/05 22:19:22 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/06 05:20:51 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	send_byte(int pid_server, char str)
 	size = 0;
 	while (size < 8)
 	{
-		usleep(1);
+		usleep(100);
 		g_pause = 0;
 		if ((str >> size) & 1)
 		{
@@ -64,9 +64,9 @@ void	handler(int seg)
 
 int	main(int ac, char **av)
 {
-	signal(SIGUSR2, handler);
-	if (ac == 3)
+	if (ac == 3 && ft_atoi(av[1]) != 0)
 	{
+		signal(SIGUSR2, handler);
 		if (!send(av[2], ft_atoi(av[1])))
 			ft_putstr_fd("Msg is received\n", 1);
 		else
@@ -74,7 +74,9 @@ int	main(int ac, char **av)
 	}
 	else if (ac < 3)
 		ft_putstr_fd("Error: Not enough arguments\n", 1);
-	else
+	else if (ac > 3)
 		ft_putstr_fd("Error: Too many arguments\n", 1);
+	else
+		ft_putstr_fd("Error: PID is incorect format\n", 1);
 	return (0);
 }

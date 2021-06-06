@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/05 23:10:46 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/06 05:17:23 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ void	handler(int seg)
 
 int	main(int ac, char **av)
 {
-	signal(SIGUSR2, handler);
-	if (ac == 3)
+	if (ac == 3 && ft_atoi(av[1]) != 0)
 	{
-		if (!send(av[2], ft_atoi(av[1])))
-			ft_putstr_fd("Msg is received\n", 1);
-		else
+		signal(SIGUSR2, handler);
+		if (send(av[2], ft_atoi(av[1])))
 			ft_putstr_fd("Error: server is not found\n", 1);
 	}
 	else if (ac < 3)
 		ft_putstr_fd("Error: Not enough arguments\n", 1);
-	else
+	else if (ac > 3)
 		ft_putstr_fd("Error: Too many arguments\n", 1);
+	else
+		ft_putstr_fd("Error: PID is incorect format\n", 1);
 	return (0);
 }

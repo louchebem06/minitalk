@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/05 21:48:21 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/06 04:52:27 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	hand(int sig, siginfo_t *info, void *context)
 int	main(void)
 {
 	struct sigaction	sig;
-	char *pid;
+	char				*pid;
 
 	pid = ft_itoa(getpid());
 	ft_putstr_fd("PID: ", 1);
