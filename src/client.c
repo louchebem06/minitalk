@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:24:38 by bledda            #+#    #+#             */
-/*   Updated: 2021/06/06 05:17:23 by bledda           ###   ########.fr       */
+/*   Updated: 2021/06/15 18:08:43 by bledda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	g_pause = 0;
 
 int	send_byte(int pid_server, char str)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (size < 8)
